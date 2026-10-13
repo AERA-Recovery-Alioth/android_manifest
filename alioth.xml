@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<manifest>
+  <remote name="AERA-Alioth" fetch="https://github.com/AERA-Recovery-Alioth" />
+  <project path="device/xiaomi/alioth" name="android_device_xiaomi_alioth-AERA" remote="AERA-Alioth" revision="aera-16.0" />
+  <project path="hardware/qcom/bootctrl" name="platform/hardware/qcom/bootctrl" remote="aosp" revision="refs/tags/android-14.0.0_r17" />
+  <project path="hardware/qcom-caf/bootctrl" name="android_hardware_qcom_bootctrl" remote="LineageOS" revision="lineage-21.0-caf" />
+  <project path="vendor/qcom/opensource/commonsys-intf/display" name="android_vendor_qcom_opensource_display-commonsys-intf" remote="AERA-Alioth" revision="aera-16.0" />
+  <project path="vendor/qcom/opensource/interfaces" name="android_vendor_qcom_opensource_interfaces" remote="LineageOS" revision="lineage-21.0" />
+  <project path="hardware/qcom-caf/sm8250/display" name="android_hardware_qcom_display" remote="AERA-Alioth" revision="aera-16.0" />
+  <project path="vendor/qcom/opensource/display" name="android_vendor_qcom_opensource_display" remote="AERA-Alioth" revision="aera-16.0" />
+</manifest>

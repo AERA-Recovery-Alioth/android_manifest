@@ -1,68 +1,25 @@
-# AERA Recovery Project manifest
+# AERA Recovery for Alioth
 
-This is the Android 16 source manifest for AERA Recovery Project. It combines
-the normal Android, LineageOS, and TeamWin sources with the private AERA forks
-required to build AERA recovery for supported devices.
+Android 16 AERA recovery sources for POCO F3 / Redmi K40 and Mi 11X.
+The manifest includes the Alioth device tree and compatible Qualcomm graphics
+and boot-control dependencies. Maintained sources follow named branches;
+unchanged shared sources use their original repositories.
 
-All AERA-owned projects are hosted in the private
-[`AERA-Recovery`](https://github.com/AERA-Recovery) GitHub organization. Access
-to that organization and an SSH key registered with GitHub are required before
-syncing.
-
-## Sync
-
-```bash
-mkdir -p ~/android/AERA_16.0
-cd ~/android/AERA_16.0
-repo init -u git@github.com:AERA-Recovery/android_manifest.git -b aera-16.0
-repo sync -c --force-sync --no-clone-bundle --no-tags -j$(nproc)
-```
-
-The manifest intentionally keeps unchanged platform dependencies on their
-normal upstream remotes. AERA repositories are used for every recovery fork and
-for every source tree carrying an AERA-specific change.
-
-Device trees are not included in the common manifest. Clone only the tree for
-the device you intend to build.
-
-## Build for OnePlus 13 (`dodge`)
-
-```bash
-cd ~/android/AERA_16.0
-git clone -b aera-16.0 \
-  git@github.com:AERA-Recovery/android_device_oneplus_dodge-AERA.git \
-  device/oneplus/dodge
+```sh
+mkdir -p ~/aera-alioth
+cd ~/aera-alioth
+repo init -u https://github.com/AERA-Recovery-Alioth/android_manifest.git -b aera-16.0
+repo sync -c --no-clone-bundle --no-tags -j8
 source build/envsetup.sh
-lunch twrp_dodge-bp2a-eng
-mka adbd recoveryimage
+export AERA_BUILD_TYPE=Alpha AERA_USE_BUSYBOX_BINARY=1
+lunch twrp_alioth-bp2a-user
+m -j8 adbd bootimage sepolicy_neverallows sepolicy_test sepolicy_dev_type_test
 ```
 
-The recovery image is written under `out/target/product/dodge/`.
+Raw recovery-as-boot output is `out/target/product/alioth/boot.img`.
+Temporary testing uses `fastboot boot`; only native AERA image/installer
+packaging is distributed. Device compatibility is documented in the device
+repository. Release attachments record exact tested source revisions and
+validation results without adding snapshot-update commits to this manifest.
 
-## Build for OnePlus 15 (`infiniti`)
-
-```bash
-cd ~/android/AERA_16.0
-git clone -b aera-16.0 \
-  git@github.com:AERA-Recovery/android_device_oneplus_infiniti-AERA.git \
-  device/oneplus/infiniti
-source build/envsetup.sh
-lunch twrp_infiniti-bp2a-eng
-mka adbd recoveryimage
-```
-
-The recovery image is written under `out/target/product/infiniti/`.
-
-## Manifest layout
-
-- `default.xml` pins the Android platform source set.
-- `twrp-default.xml` overlays the recovery build system and dependencies.
-- `aera.xml` contains the shared AERA recovery stack. Device trees are added
-  separately for each build.
-- `remove-minimal.xml` removes projects that are unnecessary for recovery.
-
-## Contribution policy
-
-Preserve original authorship when importing or adapting changes. Keep device-
-specific work in its device tree and reusable recovery behavior in the
-appropriate shared AERA project.
+Original project authorship and license notices remain intact.
